@@ -207,12 +207,13 @@ function DoNormalise(w)
     
     % get field deformation image 
     forwardDeformation = spm_select('FPList', w.structPath, ['^y_' '.*\.nii$']);
-    % 待改
+    % try to run 
+    % forwardDeformation = spm_select('FPList', w.structPath, ['^y_' 'sub' w.subName '.*\.nii$']);
     
     % get coregistered structural image 
     coregAnat = spm_select('FPList', w.structPath, '^.*\.nii$'));
-    % 待改
-    
+    % try to run
+    % coregAnat = spm_select('FPList', w.structPath, ['^y' 'sub' w.subName '^.*\.nii$'));
     
     % get sliced EPI images of all runs 
     EPI = {}; 
