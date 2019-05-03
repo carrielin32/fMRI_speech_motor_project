@@ -12,18 +12,16 @@ spm('defaults','fmri');
 spm_jobman('initcfg');
 
 %%======define parameters in a general structure 'w'=====
-w.dataDir  = '/home/feng/Downloads/basicfMRI/1_Data/';  %raw data
-%w.subjects = {'08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '61','62','63','64','65','66'}; % without low accuracy ones (parent= dataDir)
-w.subjects = {'10', '11', '12', '13', '14', '15', '16', '17', '18', '61','62','63','64','65','66'}; % without low accuracy ones (parent= dataDir)
-
+w.dataDir  = '/Users/carrielin/Documents/MATLAB/speech_motor_project/1_Data/';  %raw data
+w.subjects = {'2','3', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16','17','19','20'}; % without low accuracy ones (parent= dataDir)
 
 w.structDir = 't1'; % structural directory (parent=subject)
-w.sessions = {'picnam','verbgen'}; %session directory (parent=subject)
+w.sessions = {'run1','run2','run3','run4'}; %session directory (parent=subject)
 
 %% parameters from EPI files 
-w.nSlices = 40;  %number of slices 
-w.TR = 2.5;  %repetition time (s)
-w.thickness = 2.5; % slice thickness (mm)
+w.nSlices = 36;  %number of slices 
+w.TR = 2;  %repetition time (s)
+w.thickness = 3; % slice thickness (mm)
 
 %%========================================================
 % loop on subjects 
@@ -54,57 +52,58 @@ function DoFirstLevel(w)
     clear matlabbatch;
     matlabbatch{1}.spm.stats.fmri_spec.dir = {w.firstDir};
     matlabbatch{1}.spm.stats.fmri_spec.timing.units = 'secs';
-    matlabbatch{1}.spm.stats.fmri_spec.timing.RT = 2.5;
-    matlabbatch{1}.spm.stats.fmri_spec.timing.fmri_t = 40;
-    matlabbatch{1}.spm.stats.fmri_spec.timing.fmri_t0 = 39;
+    matlabbatch{1}.spm.stats.fmri_spec.timing.RT = 2;
+    matlabbatch{1}.spm.stats.fmri_spec.timing.fmri_t = 36;
+    matlabbatch{1}.spm.stats.fmri_spec.timing.fmri_t0 = 36;
     
    
 
-    %session 1 
+    %session 1 -- syllable 
     %matlabbatch{1}.spm.stats.fmri_spec.sess(1).scans = cellstr(spm_select('ExtFPList',  fullfile(w.subPath, 'picnam', '^swua','.*\.nii$', Inf)));
-    EPI_1 = spm_select('ExtFPList',  fullfile(w.subPath,'picnam'), ['^swua' '.*' '.*\.nii$'], Inf);
+    EPI_1 = spm_select('ExtFPList',  fullfile(w.subPath,'run1'), ['^swua' '.*' '.*\.nii$'], Inf);
     
     matlabbatch{1}.spm.stats.fmri_spec.sess(1).scans = cellstr(EPI_1);
    
     
-    matlabbatch{1}.spm.stats.fmri_spec.sess(1).cond(1).name = 'pictask';
-    matlabbatch{1}.spm.stats.fmri_spec.sess(1).cond(1).onset = [6
-                                                                54
-                                                                136
-                                                                209
-                                                                275];
-    matlabbatch{1}.spm.stats.fmri_spec.sess(1).cond(1).duration = [27 
-                                                                   38 
-                                                                   39 
-                                                                   44 
-                                                                   16];
+    matlabbatch{1}.spm.stats.fmri_spec.sess(1).cond(1).name = 'syllable1';
+   % matlabbatch{1}.spm.stats.fmri_spec.sess(1).cond(1).onset = [6
+   %                                                             54
+   %                                                             136
+   %                                                             209
+   %                                                             275];
+   % 这里插入multiple condition file for each subject for each session  
+   % matlabbatch{1}.spm.stats.fmri_spec.sess(1).cond(1).duration = [27 
+   %                                                                38 
+   %                                                                39 
+   %                                                                44 
+   %                                                                16];
     matlabbatch{1}.spm.stats.fmri_spec.sess(1).cond(1).tmod = 0;
     matlabbatch{1}.spm.stats.fmri_spec.sess(1).cond(1).pmod = struct('name', {}, 'param', {}, 'poly', {});
     matlabbatch{1}.spm.stats.fmri_spec.sess(1).cond(1).orth = 1;
     
     matlabbatch{1}.spm.stats.fmri_spec.sess(1).multi = {''};
     matlabbatch{1}.spm.stats.fmri_spec.sess(1).regress = struct('name', {}, 'val', {});
-    rpF1=spm_select('FPList', fullfile(w.subPath, 'picnam'),['^rp' '.*\.txt$']);
+    rpF1=spm_select('FPList', fullfile(w.subPath, 'run1'),['^rp' '.*\.txt$']);
     matlabbatch{1}.spm.stats.fmri_spec.sess(1).multi_reg = cellstr(rpF1);
     matlabbatch{1}.spm.stats.fmri_spec.sess(1).hpf = Inf;
 
-    %session 2
+    %session 2 -- tone
     %matlabbatch{1}.spm.stats.fmri_spec.sess(2).scans = cellstr(spm_select('ExtFPList',  fullfile(w.subPath, 'verbgen', '^swua','.*\.nii$', Inf)));
-    EPI_2 = spm_select('ExtFPList',  fullfile(w.subPath,'verbgen'), ['^swua' '.*' '.*\.nii$'], Inf);
+    EPI_2 = spm_select('ExtFPList',  fullfile(w.subPath,'run2'), ['^swua' '.*' '.*\.nii$'], Inf);
     
     matlabbatch{1}.spm.stats.fmri_spec.sess(2).scans = cellstr(EPI_2);
     
-    matlabbatch{1}.spm.stats.fmri_spec.sess(2).cond(1).name = 'verbtask';
-    matlabbatch{1}.spm.stats.fmri_spec.sess(2).cond(1).onset = [23 
-                                                                74 
-                                                                123 
-                                                                170 
-                                                                230];
-    matlabbatch{1}.spm.stats.fmri_spec.sess(2).cond(1).duration = [36 
-                                                                   18 
-                                                                   29 
-                                                                   23 
-                                                                   42];
+    matlabbatch{1}.spm.stats.fmri_spec.sess(2).cond(1).name = 'tone2';
+   % matlabbatch{1}.spm.stats.fmri_spec.sess(2).cond(1).onset = [23 
+   %                                                             74 
+   %                                                             123 
+   %                                                             170 
+   %                                                             230];
+   % matlabbatch{1}.spm.stats.fmri_spec.sess(2).cond(1).duration = [36 
+   %                                                                18 
+   %                                                                29 
+   %                                                                23 
+   %                                                                42];
     matlabbatch{1}.spm.stats.fmri_spec.sess(2).cond(1).tmod = 0;
     matlabbatch{1}.spm.stats.fmri_spec.sess(2).cond(1).pmod = struct('name', {}, 'param', {}, 'poly', {});
     matlabbatch{1}.spm.stats.fmri_spec.sess(2).cond(1).orth = 1;
@@ -112,7 +111,7 @@ function DoFirstLevel(w)
     
     matlabbatch{1}.spm.stats.fmri_spec.sess(2).multi = {''};
     matlabbatch{1}.spm.stats.fmri_spec.sess(2).regress = struct('name', {}, 'val', {});
-    rpF2=spm_select('FPList', fullfile(w.subPath, 'verbgen'),['^rp' '.*\.txt$']);
+    rpF2=spm_select('FPList', fullfile(w.subPath, 'run2'),['^rp' '.*\.txt$']);
     matlabbatch{1}.spm.stats.fmri_spec.sess(2).multi_reg = cellstr(rpF2);
     matlabbatch{1}.spm.stats.fmri_spec.sess(2).hpf = Inf;
     matlabbatch{1}.spm.stats.fmri_spec.fact = struct('name', {}, 'levels', {});
@@ -120,6 +119,7 @@ function DoFirstLevel(w)
     matlabbatch{1}.spm.stats.fmri_spec.volt = 1;
     matlabbatch{1}.spm.stats.fmri_spec.global = 'None';
     matlabbatch{1}.spm.stats.fmri_spec.mthresh = -Inf;
+    
     
     explicitMask = spm_select('FPList', w.structPath, '^explicitMask_wc1wc2wc3_0.3.nii$');
     matlabbatch{1}.spm.stats.fmri_spec.mask = {explicitMask};
@@ -147,11 +147,13 @@ function DoFirstLevel(w)
     matlabbatch{3}.spm.stats.con.spmmat = cellstr(fullfile(w.firstDir,'SPM.mat'));   
     
     %% Contrasts T (betas)    
-    matlabbatch{3}.spm.stats.con.consess{1}.tcon.name = 'picname';
-    matlabbatch{3}.spm.stats.con.consess{1}.tcon.weights = [1];
+    matlabbatch{3}.spm.stats.con.consess{1}.tcon.name = 'syllable';
+    % matlabbatch{3}.spm.stats.con.consess{1}.tcon.weights = [1];
+    % 此处待改
     matlabbatch{3}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
-    matlabbatch{3}.spm.stats.con.consess{2}.tcon.name = 'verbgen';
-    matlabbatch{3}.spm.stats.con.consess{2}.tcon.weights = [0 0 0 0 0 0 0 1];
+    matlabbatch{3}.spm.stats.con.consess{2}.tcon.name = 'tone';
+    % matlabbatch{3}.spm.stats.con.consess{2}.tcon.weights = [0 0 0 0 0 0 0 1];
+    % 此处待改
     matlabbatch{3}.spm.stats.con.consess{2}.tcon.sessrep = 'none';
     
     %% Contrasts T (comparisons)   
