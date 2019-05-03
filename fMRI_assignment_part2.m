@@ -64,8 +64,8 @@ function DoFirstLevel(w)
     
     matlabbatch{1}.spm.stats.fmri_spec.sess(1).scans = cellstr(EPI_1);
    
-    
-    matlabbatch{1}.spm.stats.fmri_spec.sess(1).cond(1).name = 'syllable1';
+    matlabbatch{1}.spm.stats.fmri_spec.sess(1).cond = struct('name', {}, 'onset', {}, 'duration', {}, 'tmod', {}, 'pmod', {});
+   % matlabbatch{1}.spm.stats.fmri_spec.sess(1).cond(1).name = 'syllable1';
    % matlabbatch{1}.spm.stats.fmri_spec.sess(1).cond(1).onset = [6
    %                                                             54
    %                                                             136
@@ -77,9 +77,9 @@ function DoFirstLevel(w)
    %                                                                39 
    %                                                                44 
    %                                                                16];
-    matlabbatch{1}.spm.stats.fmri_spec.sess(1).cond(1).tmod = 0;
-    matlabbatch{1}.spm.stats.fmri_spec.sess(1).cond(1).pmod = struct('name', {}, 'param', {}, 'poly', {});
-    matlabbatch{1}.spm.stats.fmri_spec.sess(1).cond(1).orth = 1;
+   % matlabbatch{1}.spm.stats.fmri_spec.sess(1).cond(1).tmod = 0;
+   % matlabbatch{1}.spm.stats.fmri_spec.sess(1).cond(1).pmod = struct('name', {}, 'param', {}, 'poly', {});
+   % matlabbatch{1}.spm.stats.fmri_spec.sess(1).cond(1).orth = 1;
     
     % 0503 add 
     con1=spm_select('FPList', fullfile(w.dataDir, 'onsets', 'tone', w.subName,['^Run1' '.*\.mat$'];
@@ -96,7 +96,8 @@ function DoFirstLevel(w)
     
     matlabbatch{1}.spm.stats.fmri_spec.sess(2).scans = cellstr(EPI_2);
     
-    matlabbatch{1}.spm.stats.fmri_spec.sess(2).cond(1).name = 'tone2';
+    matlabbatch{1}.spm.stats.fmri_spec.sess(2).cond = struct('name', {}, 'onset', {}, 'duration', {}, 'tmod', {}, 'pmod', {});
+   % matlabbatch{1}.spm.stats.fmri_spec.sess(2).cond(1).name = 'tone2';
    % matlabbatch{1}.spm.stats.fmri_spec.sess(2).cond(1).onset = [23 
    %                                                             74 
    %                                                             123 
@@ -107,12 +108,13 @@ function DoFirstLevel(w)
    %                                                                29 
    %                                                                23 
    %                                                                42];
-    matlabbatch{1}.spm.stats.fmri_spec.sess(2).cond(1).tmod = 0;
-    matlabbatch{1}.spm.stats.fmri_spec.sess(2).cond(1).pmod = struct('name', {}, 'param', {}, 'poly', {});
-    matlabbatch{1}.spm.stats.fmri_spec.sess(2).cond(1).orth = 1;
+   % matlabbatch{1}.spm.stats.fmri_spec.sess(2).cond(1).tmod = 0;
+   % matlabbatch{1}.spm.stats.fmri_spec.sess(2).cond(1).pmod = struct('name', {}, 'param', {}, 'poly', {});
+   % matlabbatch{1}.spm.stats.fmri_spec.sess(2).cond(1).orth = 1;
     
-    
-    matlabbatch{1}.spm.stats.fmri_spec.sess(2).multi = {''};
+    con2=spm_select('FPList', fullfile(w.dataDir, 'onsets', 'tone', w.subName,['^Run2' '.*\.mat$'];
+    matlabbatch{1}.spm.stats.fmri_spec.sess(2).multi = cellstr(con2);
+   
     matlabbatch{1}.spm.stats.fmri_spec.sess(2).regress = struct('name', {}, 'val', {});
     rpF2=spm_select('FPList', fullfile(w.subPath, 'run2'),['^rp' '.*\.txt$']);
     matlabbatch{1}.spm.stats.fmri_spec.sess(2).multi_reg = cellstr(rpF2);
