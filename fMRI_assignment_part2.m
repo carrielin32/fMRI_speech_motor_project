@@ -81,7 +81,10 @@ function DoFirstLevel(w)
     matlabbatch{1}.spm.stats.fmri_spec.sess(1).cond(1).pmod = struct('name', {}, 'param', {}, 'poly', {});
     matlabbatch{1}.spm.stats.fmri_spec.sess(1).cond(1).orth = 1;
     
-    matlabbatch{1}.spm.stats.fmri_spec.sess(1).multi = {''};
+    % 0503 add 
+    con1=spm_select('FPList', fullfile(w.dataDir, 'onsets',w.subName,['^Run1' '.*\.mat$'];
+    matlabbatch{1}.spm.stats.fmri_spec.sess(1).multi = cellstr(con1);
+    
     matlabbatch{1}.spm.stats.fmri_spec.sess(1).regress = struct('name', {}, 'val', {});
     rpF1=spm_select('FPList', fullfile(w.subPath, 'run1'),['^rp' '.*\.txt$']);
     matlabbatch{1}.spm.stats.fmri_spec.sess(1).multi_reg = cellstr(rpF1);
