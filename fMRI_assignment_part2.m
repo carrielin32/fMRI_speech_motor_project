@@ -119,6 +119,38 @@ function DoFirstLevel(w)
     rpF2=spm_select('FPList', fullfile(w.subPath, 'run2'),['^rp' '.*\.txt$']);
     matlabbatch{1}.spm.stats.fmri_spec.sess(2).multi_reg = cellstr(rpF2);
     matlabbatch{1}.spm.stats.fmri_spec.sess(2).hpf = Inf;
+    
+    %session3 --syllable
+    EPI_3 = spm_select('ExtFPList',  fullfile(w.subPath,'run3'), ['^swua' '.*' '.*\.nii$'], Inf);
+    
+    matlabbatch{1}.spm.stats.fmri_spec.sess(3).scans = cellstr(EPI_3);
+    
+    matlabbatch{1}.spm.stats.fmri_spec.sess(3).cond = struct('name', {}, 'onset', {}, 'duration', {}, 'tmod', {}, 'pmod', {});
+    
+    con3=spm_select('FPList', fullfile(w.dataDir, 'onsets', 'tone', w.subName,['^Run3' '.*\.mat$'];
+    matlabbatch{1}.spm.stats.fmri_spec.sess(3).multi = cellstr(con3);
+   
+    matlabbatch{1}.spm.stats.fmri_spec.sess(3).regress = struct('name', {}, 'val', {});
+    rpF3=spm_select('FPList', fullfile(w.subPath, 'run3'),['^rp' '.*\.txt$']);
+    matlabbatch{1}.spm.stats.fmri_spec.sess(3).multi_reg = cellstr(rpF3);
+    matlabbatch{1}.spm.stats.fmri_spec.sess(3).hpf = Inf;
+    
+     %session4 --tone
+    EPI_4 = spm_select('ExtFPList',  fullfile(w.subPath,'run4'), ['^swua' '.*' '.*\.nii$'], Inf);
+    
+    matlabbatch{1}.spm.stats.fmri_spec.sess(4).scans = cellstr(EPI_4);
+    
+    matlabbatch{1}.spm.stats.fmri_spec.sess(4).cond = struct('name', {}, 'onset', {}, 'duration', {}, 'tmod', {}, 'pmod', {});
+    
+    con4=spm_select('FPList', fullfile(w.dataDir, 'onsets', 'tone', w.subName,['^Run4' '.*\.mat$'];
+    matlabbatch{1}.spm.stats.fmri_spec.sess(4).multi = cellstr(con4);
+   
+    matlabbatch{1}.spm.stats.fmri_spec.sess(4).regress = struct('name', {}, 'val', {});
+    rpF4=spm_select('FPList', fullfile(w.subPath, 'run4'),['^rp' '.*\.txt$']);
+    matlabbatch{1}.spm.stats.fmri_spec.sess(4).multi_reg = cellstr(rpF4);
+    matlabbatch{1}.spm.stats.fmri_spec.sess(4).hpf = Inf;
+    
+    
     matlabbatch{1}.spm.stats.fmri_spec.fact = struct('name', {}, 'levels', {});
     matlabbatch{1}.spm.stats.fmri_spec.bases.hrf.derivs = [0 0];
     matlabbatch{1}.spm.stats.fmri_spec.volt = 1;
@@ -152,21 +184,21 @@ function DoFirstLevel(w)
     matlabbatch{3}.spm.stats.con.spmmat = cellstr(fullfile(w.firstDir,'SPM.mat'));   
     
     %% Contrasts T (betas)    
-    matlabbatch{3}.spm.stats.con.consess{1}.tcon.name = 'syllable';
-    % matlabbatch{3}.spm.stats.con.consess{1}.tcon.weights = [1];
-    % 此处待改
+    matlabbatch{3}.spm.stats.con.consess{1}.tcon.name = 'syllable_only';
+    matlabbatch{3}.spm.stats.con.consess{1}.tcon.weights = [0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1];
     matlabbatch{3}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
-    matlabbatch{3}.spm.stats.con.consess{2}.tcon.name = 'tone';
-    % matlabbatch{3}.spm.stats.con.consess{2}.tcon.weights = [0 0 0 0 0 0 0 1];
-    % 此处待改
+    
+    matlabbatch{3}.spm.stats.con.consess{2}.tcon.name = 'tone_only';
+    matlabbatch{3}.spm.stats.con.consess{2}.tcon.weights = [1 0 0 0 0 0 0 0 0 0 0 0 0 0 1];
     matlabbatch{3}.spm.stats.con.consess{2}.tcon.sessrep = 'none';
     
     %% Contrasts T (comparisons)   
-    matlabbatch{3}.spm.stats.con.consess{3}.tcon.name = 'picname > verbgen';
-    matlabbatch{3}.spm.stats.con.consess{3}.tcon.weights = [1 0 0 0 0 0 0 -1]; % Division par 2 pas indispensable...
+    matlabbatch{3}.spm.stats.con.consess{3}.tcon.name = 'syllable > tone';
+    matlabbatch{3}.spm.stats.con.consess{3}.tcon.weights = [1 0 0 0 0 0 0 -1 0 0 0 0 0 0 1 0 0 0 0 0 0 -1];
     matlabbatch{3}.spm.stats.con.consess{3}.tcon.sessrep = 'none';
-    matlabbatch{3}.spm.stats.con.consess{4}.tcon.name = 'verbgen > picname';
-    matlabbatch{3}.spm.stats.con.consess{4}.tcon.weights = [-1 0 0 0 0 0 0 1];
+    
+    matlabbatch{3}.spm.stats.con.consess{4}.tcon.name = 'tone > syllable';
+    matlabbatch{3}.spm.stats.con.consess{4}.tcon.weights = [-1 0 0 0 0 0 0 1 0 0 0 0 0 0 -1 0 0 0 0 0 0 1];
     matlabbatch{3}.spm.stats.con.consess{4}.tcon.sessrep = 'none';
     
     
