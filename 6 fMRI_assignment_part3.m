@@ -12,20 +12,67 @@ spm('defaults','fmri');
 spm_jobman('initcfg');
 
 %%======define parameters in a general structure 'w'=====
-w.dataDir  = '/home/feng/Downloads/basicfMRI/1_Data/';  %raw data
-w.subjects = {'09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '61','62','64','65','66'}; % without low accuracy ones (parent= dataDir)
+w.dataDir  = '/home/feng/Downloads/niidata/';  %raw data
+w.subjects = {'03','04,'05','06','07','08','09','10', '11', '12', '13', '14', '15', '16', '17', '18', '19','20'}; % without low accuracy ones (parent= dataDir)
 
 w.structDir = 't1'; % structural directory (parent=subject)
-w.firstDir = 'stats';
+%w.firstDir = 'stats';
 w.secondDir = 'second_level';
 
-
+DoCreateGroupMask(w);
 DoSecondLevel(w);
 
 end
 
+function DoCreateGroupMask(w)
+
+    %==================================================================
+    %  Create binary mask for the subject group
+    %==================================================================    
+    outputDir = fullfile(w.dataDir, w.secondDir, 'ExplicitMask');
+
+    if ~exist(outputDir,  'dir')
+      mkdir (outputDir);        
+    end
+
+    %%
+    fileMask = {};
+    express=[]; 
+    N = numel(w.subjects);
+    for iS=1:N
+   
+        w.subName = w.subjects{iS};
+        w.subPath = fullfile(w.dataDir, w.subjects{iS});
+        w.structPath = fullfile(w.subPath, w.structDir);
+        fileMask {iS}   = spm_select('FPList',  fullfile(w.structPath), 'explicitMask_wc1wc2wc3_03.nii');
+    
+        % For Expression, add 'i1+iN' for avering the subject-specific masks  
+        if (iS== N)
+            express = [express 'i' num2str(iS)];
+        else
+            express = [express 'i' num2str(iS) '+'];
+        end    
+    end
+    express=['((' express ')/' num2str(N) ')>.50'] ; % use  a threshold of 50%
+    %%
+
+    % Batch SPM
+    clear matlabbatch;
+    matlabbatch{1}.spm.util.imcalc.input =  fileMask';
+    matlabbatch{1}.spm.util.imcalc.output = 'ExplicitMask.nii';
+    matlabbatch{1}.spm.util.imcalc.outdir = {outputDir};
+    matlabbatch{1}.spm.util.imcalc.expression = express;
+    matlabbatch{1}.spm.util.imcalc.options.dmtx = 0;
+    matlabbatch{1}.spm.util.imcalc.options.mask = 0;
+    matlabbatch{1}.spm.util.imcalc.options.interp = 1;
+    matlabbatch{1}.spm.util.imcalc.options.dtype = 4;
+
+    spm_jobman('initcfg');
+    spm_jobman('run',matlabbatch);  
+end
 
 
+%待改 0618
 function DoSecondLevel(w)
 
 
