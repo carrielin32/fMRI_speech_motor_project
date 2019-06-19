@@ -76,26 +76,30 @@ end
 function DoSecondLevel(w)
 
 
-matlabbatch{1}.spm.stats.factorial_design.dir = {'/home/feng/Downloads/basicfMRI/1_Data/second_level/picname'};
+matlabbatch{1}.spm.stats.factorial_design.dir = {'/home/feng/Downloads/niidata/second_level/tone'};
 
 
+% S only in tone stimuli  
 matlabbatch{1}.spm.stats.factorial_design.des.t1.scans = {
-                                                          '/home/feng/Downloads/basicfMRI/1_Data/09/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/basicfMRI/1_Data/10/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/basicfMRI/1_Data/11/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/basicfMRI/1_Data/12/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/basicfMRI/1_Data/13/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/basicfMRI/1_Data/14/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/basicfMRI/1_Data/15/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/basicfMRI/1_Data/16/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/basicfMRI/1_Data/17/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/basicfMRI/1_Data/18/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/basicfMRI/1_Data/61/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/basicfMRI/1_Data/62/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/basicfMRI/1_Data/64/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/basicfMRI/1_Data/65/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/basicfMRI/1_Data/66/stats/con_0001.nii,1'
-                       
+                                                          '/home/feng/Downloads/niidata/03/stats/con_0001.nii,1'
+                                                          '/home/feng/Downloads/niidata/04/stats/con_0001.nii,1'
+                                                          '/home/feng/Downloads/niidata/05/stats/con_0001.nii,1'
+                                                          '/home/feng/Downloads/niidata/06/stats/con_0001.nii,1'
+                                                          '/home/feng/Downloads/niidata/07/stats/con_0001.nii,1'
+                                                          '/home/feng/Downloads/niidata/08/stats/con_0001.nii,1'
+                                                          '/home/feng/Downloads/niidata/09/stats/con_0001.nii,1'
+                                                          '/home/feng/Downloads/niidata/10/stats/con_0001.nii,1'
+                                                          '/home/feng/Downloads/niidata/11/stats/con_0001.nii,1'
+                                                          '/home/feng/Downloads/niidata/12/stats/con_0001.nii,1'
+                                                          '/home/feng/Downloads/niidata/13/stats/con_0001.nii,1'
+                                                          '/home/feng/Downloads/niidata/14/stats/con_0001.nii,1'
+                                                          '/home/feng/Downloads/niidata/15/stats/con_0001.nii,1'
+                                                          '/home/feng/Downloads/niidata/16/stats/con_0001.nii,1'
+                                                          '/home/feng/Downloads/niidata/17/stats/con_0001.nii,1'
+                                                          '/home/feng/Downloads/niidata/18/stats/con_0001.nii,1'
+                                                          '/home/feng/Downloads/niidata/19/stats/con_0001.nii,1'
+                                                          '/home/feng/Downloads/niidata/20/stats/con_0001.nii,1'
+                   
                                                           };
 
 
@@ -103,7 +107,7 @@ matlabbatch{1}.spm.stats.factorial_design.cov = struct('c', {}, 'cname', {}, 'iC
 matlabbatch{1}.spm.stats.factorial_design.multi_cov = struct('files', {}, 'iCFI', {}, 'iCC', {});
 matlabbatch{1}.spm.stats.factorial_design.masking.tm.tm_none = 1;
 matlabbatch{1}.spm.stats.factorial_design.masking.im = 0;
-matlabbatch{1}.spm.stats.factorial_design.masking.em = {'/home/feng/Downloads/basicfMRI/1_Data/second_level/ExplicitMask.nii,1'};
+matlabbatch{1}.spm.stats.factorial_design.masking.em = {'/home/feng/Downloads/niidata/second_level/ExplicitMask/ExplicitMask.nii,1'};
 matlabbatch{1}.spm.stats.factorial_design.globalc.g_omit = 1;
 matlabbatch{1}.spm.stats.factorial_design.globalm.gmsca.gmsca_no = 1;
 matlabbatch{1}.spm.stats.factorial_design.globalm.glonorm = 1;
