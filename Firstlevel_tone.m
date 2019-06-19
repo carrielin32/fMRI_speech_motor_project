@@ -36,7 +36,7 @@ w.thickness = 3; % slice thickness (mm)
     w.subName = w.subjects{iS};
     w.subPath = fullfile(w.dataDir, w.subjects{iS});
     w.structPath = fullfile(w.subPath, w.structDir);
-    w.firstDir = fullfile(w.subPath, 'stats');
+    w.firstDir = fullfile(w.subPath, 'stats', 'tone');
 
     cd(w.subPath);
     
