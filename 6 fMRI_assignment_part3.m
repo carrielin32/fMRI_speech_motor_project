@@ -16,7 +16,7 @@ w.dataDir  = '/home/feng/Downloads/niidata/';  %raw data
 w.subjects = {'03','04,'05','06','07','08','09','10', '11', '12', '13', '14', '15', '16', '17', '18', '19','20'}; % without low accuracy ones (parent= dataDir)
 
 w.structDir = 't1'; % structural directory (parent=subject)
-%w.firstDir = 'stats';
+w.firstDir = 'stats';
 w.secondDir = 'second_level';
 
 DoCreateGroupMask(w);
@@ -75,57 +75,76 @@ end
 %待改 0618
 function DoSecondLevel(w)
 
-
+clear matlabbatch;
 matlabbatch{1}.spm.stats.factorial_design.dir = {'/home/feng/Downloads/niidata/second_level/tone'};
 
+    for i=1:numel(w.subjects)
+        %%
+        matlabbatch{1}.spm.stats.factorial_design.des.anovaw.fsubject(i).scans = {fullfile(w.FirstDir,w.subjects{i},'con_0001.nii,1')
+                                                                                  fullfile(w.FirstDir,w.subjects{i},'con_0002.nii,1')
+                                                                                  fullfile(w.FirstDir,w.subjects{i},'con_0003.nii,1')
+                                                                                  fullfile(w.FirstDir,w.subjects{i},'con_0004.nii,1')};
+        matlabbatch{1}.spm.stats.factorial_design.des.anovaw.fsubject(i).conds = [1 2 3 4];
+    end
 
-% S only in tone stimuli  
-matlabbatch{1}.spm.stats.factorial_design.des.t1.scans = {
-                                                          '/home/feng/Downloads/niidata/03/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/niidata/04/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/niidata/05/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/niidata/06/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/niidata/07/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/niidata/08/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/niidata/09/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/niidata/10/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/niidata/11/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/niidata/12/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/niidata/13/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/niidata/14/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/niidata/15/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/niidata/16/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/niidata/17/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/niidata/18/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/niidata/19/stats/con_0001.nii,1'
-                                                          '/home/feng/Downloads/niidata/20/stats/con_0001.nii,1'
-                   
-                                                          };
+    matlabbatch{1}.spm.stats.factorial_design.des.anovaw.dept = 1;
+    matlabbatch{1}.spm.stats.factorial_design.des.anovaw.variance = 0;
+    matlabbatch{1}.spm.stats.factorial_design.des.anovaw.gmsca = 0;
+    matlabbatch{1}.spm.stats.factorial_design.des.anovaw.ancova = 0;
+    matlabbatch{1}.spm.stats.factorial_design.cov = struct('c', {}, 'cname', {}, 'iCFI', {}, 'iCC', {});
+    matlabbatch{1}.spm.stats.factorial_design.multi_cov = struct('files', {}, 'iCFI', {}, 'iCC', {});
+    matlabbatch{1}.spm.stats.factorial_design.masking.tm.tm_none = 1;
+    matlabbatch{1}.spm.stats.factorial_design.masking.im = 0; % Implicit Mask = 1
+    matlabbatch{1}.spm.stats.factorial_design.masking.em = {'/home/feng/Downloads/niidata/second_level/ExplicitMask/ExplicitMask.nii,1'};
+    matlabbatch{1}.spm.stats.factorial_design.globalc.g_omit = 1;
+    matlabbatch{1}.spm.stats.factorial_design.globalm.gmsca.gmsca_no = 1;
+    matlabbatch{1}.spm.stats.factorial_design.globalm.glonorm = 1;
 
+    %==============================================================
+    %  Model Estimation
+    %==============================================================   
 
-matlabbatch{1}.spm.stats.factorial_design.cov = struct('c', {}, 'cname', {}, 'iCFI', {}, 'iCC', {});
-matlabbatch{1}.spm.stats.factorial_design.multi_cov = struct('files', {}, 'iCFI', {}, 'iCC', {});
-matlabbatch{1}.spm.stats.factorial_design.masking.tm.tm_none = 1;
-matlabbatch{1}.spm.stats.factorial_design.masking.im = 0;
-matlabbatch{1}.spm.stats.factorial_design.masking.em = {'/home/feng/Downloads/niidata/second_level/ExplicitMask/ExplicitMask.nii,1'};
-matlabbatch{1}.spm.stats.factorial_design.globalc.g_omit = 1;
-matlabbatch{1}.spm.stats.factorial_design.globalm.gmsca.gmsca_no = 1;
-matlabbatch{1}.spm.stats.factorial_design.globalm.glonorm = 1;
-matlabbatch{2}.spm.stats.fmri_est.spmmat(1) = cfg_dep('Factorial design specification: SPM.mat File', substruct('.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','spmmat'));
-matlabbatch{2}.spm.stats.fmri_est.write_residuals = 0;
-matlabbatch{2}.spm.stats.fmri_est.method.Classical = 1;
-matlabbatch{3}.spm.stats.con.spmmat(1) = cfg_dep('Model estimation: SPM.mat File', substruct('.','val', '{}',{2}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','spmmat'));
-matlabbatch{3}.spm.stats.con.consess{1}.tcon.name = 'picname';
-matlabbatch{3}.spm.stats.con.consess{1}.tcon.weights = 1;
-matlabbatch{3}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
-matlabbatch{3}.spm.stats.con.delete = 0;
+    matlabbatch{2}.spm.stats.fmri_est.spmmat(1) = cfg_dep('Factorial design specification: SPM.mat File', substruct('.','val', '{}',{1}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','spmmat'));
+    matlabbatch{2}.spm.stats.fmri_est.write_residuals = 0;
+    matlabbatch{2}.spm.stats.fmri_est.method.Classical = 1;
 
-save(fullfile(w.dataDir, w.secondDir, 'SPM12_matlabbatch_1_2ndlevelanalysis.mat'),'matlabbatch');     
+    %==============================================================
+    %  Contrast manager
+    %==============================================================   
+
+    matlabbatch{3}.spm.stats.con.spmmat(1) = cfg_dep('Model estimation: SPM.mat File', substruct('.','val', '{}',{2}, '.','val', '{}',{1}, '.','val', '{}',{1}), substruct('.','spmmat'));
+
+    % Contrasts T
+    matlabbatch{3}.spm.stats.con.consess{1}.tcon.name = 'syllable_only';
+    matlabbatch{3}.spm.stats.con.consess{1}.tcon.weights = [1 0 0 0];
+    matlabbatch{3}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
+    matlabbatch{3}.spm.stats.con.consess{2}.tcon.name = 'tone_only';
+    matlabbatch{3}.spm.stats.con.consess{2}.tcon.weights = [0 1 0 0];
+    matlabbatch{3}.spm.stats.con.consess{2}.tcon.sessrep = 'none';
+    matlabbatch{3}.spm.stats.con.consess{3}.tcon.name = 'syllable > tone';
+    matlabbatch{3}.spm.stats.con.consess{3}.tcon.weights = [0 0 1 0];
+    matlabbatch{3}.spm.stats.con.consess{3}.tcon.sessrep = 'none';
+    matlabbatch{3}.spm.stats.con.consess{4}.tcon.name = 'tone > syllable';
+    matlabbatch{3}.spm.stats.con.consess{4}.tcon.weights = [0 0 0 1];
+    matlabbatch{3}.spm.stats.con.consess{4}.tcon.sessrep = 'none';
+    %matlabbatch{3}.spm.stats.con.consess{5}.fcon.name = 'F-all_conditions';
+    %matlabbatch{3}.spm.stats.con.consess{5}.fcon.weights =  eye(w.ncond)*(w.ncond-1)/w.ncond + (ones(w.ncond)-eye(w.ncond))*-1/w.ncond;
+    %matlabbatch{3}.spm.stats.con.consess{5}.fcon.sessrep = 'none';
+
+    matlabbatch{3}.spm.stats.con.delete = 1;
+
+    %==============================================================
+    %  Save & Run Batch
+    %==============================================================   
+
+    save(fullfile(w.dataDir, w.secondDir, 'SPM12_matlabbatch_1_2ndlevelanalysis.mat'),'matlabbatch');     
     
     spm_jobman('initcfg');
     spm_jobman('run',matlabbatch); 
 
 end
+
+
 
 
 
