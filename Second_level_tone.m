@@ -81,17 +81,21 @@ matlabbatch{1}.spm.stats.factorial_design.dir = {'/home/feng/Downloads/niidata/s
     for i=1:numel(w.subjects)
         %%
         w.subPath = fullfile(w.dataDir, w.subjects{i});
-        matlabbatch{1}.spm.stats.factorial_design.des.anovaw.fsubject(i).scans = {fullfile(w.subPath,w.FirstDir,'con_0001.nii,1')
-                                                                                  fullfile(w.subPath,w.FirstDir,'con_0002.nii,1')
-                                                                                  fullfile(w.subPath,w.FirstDir,'con_0003.nii,1')
-                                                                                  fullfile(w.subPath,w.FirstDir,'con_0004.nii,1')};
-        matlabbatch{1}.spm.stats.factorial_design.des.anovaw.fsubject(i).conds = [1 2 3 4];
+        %matlabbatch{1}.spm.stats.factorial_design.des.anovaw.fsubject(i).scans = {fullfile(w.subPath,w.FirstDir,'con_0001.nii,1')
+                                                                                  %fullfile(w.subPath,w.FirstDir,'con_0002.nii,1')
+                                                                                  %fullfile(w.subPath,w.FirstDir,'con_0003.nii,1')
+                                                                                  %fullfile(w.subPath,w.FirstDir,'con_0004.nii,1')};
+        %matlabbatch{1}.spm.stats.factorial_design.des.anovaw.fsubject(i).conds = [1 2 3 4];
+        conmaps = spm_select('FPList', fullfile(w.subPath,w.FirstDir,'con_0001.nii,1'));
+        matlabbatch{1}.spm.stats.factorial_design.des.t1.scans{i} = cellstr(conmaps);
+        
+        
     end
 
-    matlabbatch{1}.spm.stats.factorial_design.des.anovaw.dept = 1;
-    matlabbatch{1}.spm.stats.factorial_design.des.anovaw.variance = 0;
-    matlabbatch{1}.spm.stats.factorial_design.des.anovaw.gmsca = 0;
-    matlabbatch{1}.spm.stats.factorial_design.des.anovaw.ancova = 0;
+    %matlabbatch{1}.spm.stats.factorial_design.des.anovaw.dept = 1;
+    %matlabbatch{1}.spm.stats.factorial_design.des.anovaw.variance = 0;
+    %matlabbatch{1}.spm.stats.factorial_design.des.anovaw.gmsca = 0;
+    %matlabbatch{1}.spm.stats.factorial_design.des.anovaw.ancova = 0;
     matlabbatch{1}.spm.stats.factorial_design.cov = struct('c', {}, 'cname', {}, 'iCFI', {}, 'iCC', {});
     matlabbatch{1}.spm.stats.factorial_design.multi_cov = struct('files', {}, 'iCFI', {}, 'iCC', {});
     matlabbatch{1}.spm.stats.factorial_design.masking.tm.tm_none = 1;
@@ -117,17 +121,17 @@ matlabbatch{1}.spm.stats.factorial_design.dir = {'/home/feng/Downloads/niidata/s
 
     % Contrasts T
     matlabbatch{3}.spm.stats.con.consess{1}.tcon.name = 'syllable_only';
-    matlabbatch{3}.spm.stats.con.consess{1}.tcon.weights = [1];
+    matlabbatch{3}.spm.stats.con.consess{1}.tcon.weights = 1;
     matlabbatch{3}.spm.stats.con.consess{1}.tcon.sessrep = 'none';
-    matlabbatch{3}.spm.stats.con.consess{2}.tcon.name = 'tone_only';
-    matlabbatch{3}.spm.stats.con.consess{2}.tcon.weights = [0 1 0 0];
-    matlabbatch{3}.spm.stats.con.consess{2}.tcon.sessrep = 'none';
-    matlabbatch{3}.spm.stats.con.consess{3}.tcon.name = 'syllable > tone';
-    matlabbatch{3}.spm.stats.con.consess{3}.tcon.weights = [0 0 1 0];
-    matlabbatch{3}.spm.stats.con.consess{3}.tcon.sessrep = 'none';
-    matlabbatch{3}.spm.stats.con.consess{4}.tcon.name = 'tone > syllable';
-    matlabbatch{3}.spm.stats.con.consess{4}.tcon.weights = [0 0 0 1];
-    matlabbatch{3}.spm.stats.con.consess{4}.tcon.sessrep = 'none';
+    %matlabbatch{3}.spm.stats.con.consess{2}.tcon.name = 'tone_only';
+    %matlabbatch{3}.spm.stats.con.consess{2}.tcon.weights = [0 1 0 0];
+    %matlabbatch{3}.spm.stats.con.consess{2}.tcon.sessrep = 'none';
+    %matlabbatch{3}.spm.stats.con.consess{3}.tcon.name = 'syllable > tone';
+    %matlabbatch{3}.spm.stats.con.consess{3}.tcon.weights = [0 0 1 0];
+    %matlabbatch{3}.spm.stats.con.consess{3}.tcon.sessrep = 'none';
+    %matlabbatch{3}.spm.stats.con.consess{4}.tcon.name = 'tone > syllable';
+    %matlabbatch{3}.spm.stats.con.consess{4}.tcon.weights = [0 0 0 1];
+    %matlabbatch{3}.spm.stats.con.consess{4}.tcon.sessrep = 'none';
     %matlabbatch{3}.spm.stats.con.consess{5}.fcon.name = 'F-all_conditions';
     %matlabbatch{3}.spm.stats.con.consess{5}.fcon.weights =  eye(w.ncond)*(w.ncond-1)/w.ncond + (ones(w.ncond)-eye(w.ncond))*-1/w.ncond;
     %matlabbatch{3}.spm.stats.con.consess{5}.fcon.sessrep = 'none';
