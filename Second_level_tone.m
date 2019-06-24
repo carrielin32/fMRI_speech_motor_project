@@ -72,25 +72,47 @@ spm_jobman('run',matlabbatch);
 
 end
 
-%待改 0618
+
 function DoSecondLevel(w)
 
 clear matlabbatch;
 matlabbatch{1}.spm.stats.factorial_design.dir = {'/home/feng/Downloads/niidata/second_level/tone'};
 
-    for i=1:numel(w.subjects)
+    %for i=1:numel(w.subjects)
         %%
-        w.subPath = fullfile(w.dataDir, w.subjects{i});
+        %w.subPath = fullfile(w.dataDir, w.subjects{i})
         %matlabbatch{1}.spm.stats.factorial_design.des.anovaw.fsubject(i).scans = {fullfile(w.subPath,w.FirstDir,'con_0001.nii,1')
                                                                                   %fullfile(w.subPath,w.FirstDir,'con_0002.nii,1')
                                                                                   %fullfile(w.subPath,w.FirstDir,'con_0003.nii,1')
                                                                                   %fullfile(w.subPath,w.FirstDir,'con_0004.nii,1')};
         %matlabbatch{1}.spm.stats.factorial_design.des.anovaw.fsubject(i).conds = [1 2 3 4];
-        conmaps = spm_select('FPList', fullfile(w.subPath,w.FirstDir,'con_0001.nii,1'));
-        matlabbatch{1}.spm.stats.factorial_design.des.t1.scans{i} = cellstr(conmaps);
+        %conmaps = spm_select('ExtFPList', fullfile(w.subPath,w.FirstDir),['^con_0001' '.*\.nii$'],Inf)
+        %matlabbatch{1}.spm.stats.factorial_design.des.t1.scans{i} = cellstr(conmaps);
         
         
-    end
+    %end
+    
+    matlabbatch{1}.spm.stats.factorial_design.des.t1.scans = {
+                                                              '/home/feng/Downloads/niidata/03/stats/con_0001.nii,1'
+                                                              '/home/feng/Downloads/niidata/04/stats/con_0001.nii,1'
+                                                              '/home/feng/Downloads/niidata/05/stats/con_0001.nii,1'
+                                                              '/home/feng/Downloads/niidata/06/stats/con_0001.nii,1'
+                                                              '/home/feng/Downloads/niidata/07/stats/con_0001.nii,1'
+                                                              '/home/feng/Downloads/niidata/08/stats/con_0001.nii,1'
+                                                              '/home/feng/Downloads/niidata/09/stats/con_0001.nii,1'
+                                                              '/home/feng/Downloads/niidata/10/stats/con_0001.nii,1'
+                                                              '/home/feng/Downloads/niidata/11/stats/con_0001.nii,1'
+                                                              '/home/feng/Downloads/niidata/12/stats/con_0001.nii,1'
+                                                              '/home/feng/Downloads/niidata/13/stats/con_0001.nii,1'
+                                                              '/home/feng/Downloads/niidata/14/stats/con_0001.nii,1'
+                                                              '/home/feng/Downloads/niidata/15/stats/con_0001.nii,1'
+                                                              '/home/feng/Downloads/niidata/16/stats/con_0001.nii,1'
+                                                              '/home/feng/Downloads/niidata/17/stats/con_0001.nii,1'
+                                                              '/home/feng/Downloads/niidata/18/stats/con_0001.nii,1'
+                                                              '/home/feng/Downloads/niidata/19/stats/con_0001.nii,1'
+                                                              '/home/feng/Downloads/niidata/20/stats/con_0001.nii,1'
+                                                           
+                                                              };
 
     %matlabbatch{1}.spm.stats.factorial_design.des.anovaw.dept = 1;
     %matlabbatch{1}.spm.stats.factorial_design.des.anovaw.variance = 0;
